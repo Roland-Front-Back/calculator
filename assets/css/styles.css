@@ -23,6 +23,7 @@ body {
   padding: 10px;
   gap: 30px;
   background-color: #454242;
+  box-shadow: 4px 4px 4px 0px #535151;
 }
 
 .result-wrapper {
@@ -42,6 +43,19 @@ body {
   border-bottom: 1px solid #ffffff;
   width: 430px;
   height: 140px;
+  display: flex;
+  justify-content: right;
+  align-items: flex-end;
+  padding: 3px;
+}
+
+.secondary-display,
+.main-display {
+  width: auto;
+  height: 65px;
+  font-size: 50px;
+  padding: 3px;
+  color: #ffffff;
 }
 
 .buttons-wrapper {
@@ -76,13 +90,22 @@ button {
   font-size: 40px;
   cursor: pointer;
   border-radius: 4px;
+  box-shadow: 0px 1px 1px 1px #454242;
 }
 
-.operator-btn {
+button:active {
+  box-shadow: 0px 0px 0px 0px #6c6868;
+}
+
+.operator {
   background-color: #e28426;
   width: 130px;
 }
 
-.blue {
+.equal {
   background-color: #3090cc;
+}
+
+.btn-delete {
+  font-size: 25px;
 }
