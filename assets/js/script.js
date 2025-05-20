@@ -25,10 +25,10 @@ function operate(operator, num1, num2) {
       return subtract(num1, num2);
     case "multiply":
       return multiply(num1, num2);
-    case "division":
+    case "divide":
       return divide(num1, num2);
     default:
-      return b;
+      return num2;
   }
 }
 
@@ -52,7 +52,7 @@ function formatNumber(number) {
     if (stringNumber.includes(".")) {
       const parts = stringNumber.split(".");
       const integerPart = parseInt(parts[0]).toLocaleString("en-US");
-      let decimalPart = parts[i];
+      let decimalPart = parts[1];
       if (decimalPart.length > maxDecimals) {
         decimalPart = decimalPart.slice(0, maxDecimals);
       }
@@ -63,18 +63,19 @@ function formatNumber(number) {
   }
 }
 
-const mainDisplay = document.querySelector("#mainDisplay");
-const secondaryDisplay = document.querySelector("#secondaryDisplay");
+const mainDisplay = document.getElementById("mainDisplay");
+const secondaryDisplay = document.getElementById("secondaryDisplay");
 const digitButtons = document.querySelectorAll(".digit");
 const operatorButtons = document.querySelectorAll("[data-operator]");
-const equalsButton = document.querySelector("#equals");
-const clearButton = document.querySelector("#clear");
-const deleteButton = document.querySelector("#delete");
-const percentButton = document.querySelector("#percent");
+const equalsButton = document.getElementById("equals");
+const clearButton = document.getElementById("clear");
+const deleteButton = document.getElementById("delete");
+const percentButton = document.getElementById("percent");
+const negateButton = document.getElementById("negate");
 
 function updateMainDisplay(value) {
   if (value === null) {
-    mainDisplay.textContent = "";
+    mainDisplay.textContent = "0";
   } else {
     const formatted = formatNumber(value);
     if (formatted.length > 16) {
@@ -125,7 +126,7 @@ function clearCalculator() {
 
 digitButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    const digit = button.getAttribute("data-digit");
+    const digit = button.getAttribute("data-num");
 
     mainDisplay.classList.remove("error");
 
@@ -142,7 +143,7 @@ digitButtons.forEach((button) => {
 
     if (digit === ".") {
       if (!currentValue.includes(".")) {
-        mainDisplay.textContent = formatNumber(parseFloat(currentValue) + ".");
+        mainDisplay.textContent = formatNumber(parseFloat(currentValue)) + ".";
       }
     } else {
       if (currentValue === "0") {
@@ -176,7 +177,7 @@ operatorButtons.forEach((button) => {
         mainDisplay.textContent = "Get out!!";
         mainDisplay.classList.add("error");
         firstOperand = null;
-        shouldResetDisplay = false;
+        shouldResetDisplay = true;
         updateSecondaryDisplay();
         lastButtonWasOperator = true;
         return;
@@ -205,20 +206,20 @@ equalsButton.addEventListener("click", () => {
     return;
   }
 
-  const currentValue = parseFloat(mainDisplay.textContent.replace(/./g, ""));
+  const currentValue = parseFloat(mainDisplay.textContent.replace(/,/g, ""));
   secondOperand = currentValue;
 
   try {
     const result = operate(currentOperator, firstOperand, secondOperand);
-    const roundResult = roundResult(result);
+    const roundedResult = roundResult(result);
 
     secondaryDisplay.textContent = `${formatNumber(
       firstOperand
-    )} ${getOperatorSymbol(currentOperator)} ${formatNumber(secondOperand)} =`;
+    )} ${getOperatorSymbol(currentOperator)} ${formatNumber(secondOperand)}`;
 
-    updateMainDisplay(roundResult);
+    updateMainDisplay(roundedResult);
 
-    firstOperand = roundResult;
+    firstOperand = roundedResult;
     currentOperator = null;
     shouldResetDisplay = true;
     lastButtonWasOperator = false;
@@ -244,7 +245,7 @@ deleteButton.addEventListener("click", () => {
     return;
   }
 
-  const currentValue = mainDisplay.textContent.replace(/./g, "");
+  const currentValue = mainDisplay.textContent.replace(/,/g, "");
 
   if (
     currentValue.length === 1 ||
@@ -260,9 +261,26 @@ deleteButton.addEventListener("click", () => {
 percentButton.addEventListener("click", () => {
   mainDisplay.classList.remove("error");
 
-  const currentValue = parseFloat(mainDisplay.textContent.replace(/./g, ""));
+  const currentValue = parseFloat(mainDisplay.textContent.replace(/,/g, ""));
   const percentValue = currentValue / 100;
   updateMainDisplay(percentValue);
+
+  if (lastButtonWasEquals) {
+    firstOperand = null;
+    currentOperator = null;
+    updateSecondaryDisplay();
+  }
+
+  lastButtonWasOperator = false;
+  lastButtonWasEquals = false;
+});
+
+negateButton.addEventListener("click", () => {
+  mainDisplay.classList.remove("error");
+
+  const currentValue = parseFloat(mainDisplay.textContent.replace(/,/g, ""));
+  const negatedValue = -currentValue;
+  updateMainDisplay(negatedValue);
 
   if (lastButtonWasEquals) {
     firstOperand = null;
