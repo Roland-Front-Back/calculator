@@ -39,10 +39,12 @@ let shouldResetDisplay = false;
 let lastButtonWasOperator = false;
 let lastButtonWasEquals = false;
 
+// Rounding long decimal to avoid overflow
 function roundResult(number) {
   return Math.round(number * 1000000) / 1000000;
 }
 
+// Format number for display and add commas for thousands, etc.
 function formatNumber(number) {
   if (Number.isInteger(number)) {
     return number.toLocaleString("en-US");
