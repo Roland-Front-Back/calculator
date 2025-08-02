@@ -45,9 +45,11 @@ This calculator project is a sleek, modern, and fully functional on-screen calcu
 
 ---
 
-### 🚀 [Live Demo](https://roland-front-back.github.io/calculator/)
+### 🚀 Live Demo
 
 Try it instantly in your browser!
+
+Here: https://roland-front-back.github.io/calculator/
 
 ---
 
@@ -122,17 +124,17 @@ Or using Live Server in VS Code:
 
 ## 🗺️ Roadmap
 
-- [x]Basic calculator logic with chained operations
+- [x] Basic calculator logic with chained operations
 
-- [x]Add responsive design and styling
+- [x] Add responsive design and styling
 
-- [x]Support percent and negate buttons
+- [x] Support percent and negate buttons
 
-- [ ]Add memory functions (M+, MR, MC) 🧠
+- [ ] Add memory functions (M+, MR, MC) 🧠
 
-- [ ]Add keyboard support ⌨️
+- [ ] Add keyboard support ⌨️
 
-- [ ]Add theme toggle (dark/light mode) 🌓
+- [ ] Add theme toggle (dark/light mode) 🌓
 
 ##🤝 Contributing
 
